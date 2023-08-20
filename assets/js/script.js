@@ -36,3 +36,15 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   });
+
+  var nav = document.querySelector('nav');
+  var navHeight = nav.offsetHeight;
+  var navOffset = nav.offsetTop;
+
+  window.addEventListener('scroll', function() {
+    if (window.pageYOffset > navOffset + navHeight) {
+      nav.classList.add('sticky');
+    } else {
+      nav.classList.remove('sticky');
+    }
+  });
