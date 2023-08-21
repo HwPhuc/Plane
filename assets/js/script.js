@@ -1,64 +1,72 @@
-document.addEventListener("DOMContentLoaded", function () {
-    var links = document.querySelectorAll('a[href^="#"]');
-    links.forEach(function (link) {
-        link.addEventListener("click", function (e) {
-            e.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ <a>
+'use strict';
 
-            var targetId = this.getAttribute("href").substring(1); // Lấy giá trị id từ href
-            var target = document.getElementById(targetId); // Lựa chọn phần tử theo id
+// function loadProducts() {
+//   fetch("assets/js/destintion.json")
+//       .then(res => res.json())
+//       .then(data => {
+//           let html = "";
+//           for (let product of data) {
+//               html += `
+//                   <li class="gallery-item">
+//                       <figure class="gallery-image">
+//                           <img src="${product.image}" alt="Gallery image">
+//                       </figure>
+//                   </li>
+//               `;
+//           }
+//           let element = document.querySelector(".gallery-list");
+//           element.insertAdjacentHTML("afterend", html);
+//       });
+// }
 
-            if (target) {
-                target.scrollIntoView({ behavior: "smooth" }); // Trượt đến vị trí của phần tử
-            }
-        });
+
+// window.onload = function() {
+//   loadProducts();
+// }
+
+
+
+/**
+ * navbar toggle
+ */
+
+const overlay = document.querySelector("[data-overlay]");
+const navOpenBtn = document.querySelector("[data-nav-open-btn]");
+const navbar = document.querySelector("[data-navbar]");
+const navCloseBtn = document.querySelector("[data-nav-close-btn]");
+const navLinks = document.querySelectorAll("[data-nav-link]");
+
+const navElemArr = [navOpenBtn, navCloseBtn, overlay];
+
+const navToggleEvent = function (elem) {
+  for (let i = 0; i < elem.length; i++) {
+    elem[i].addEventListener("click", function () {
+      navbar.classList.toggle("active");
+      overlay.classList.toggle("active");
     });
-});
+  }
+}
 
-document.addEventListener("DOMContentLoaded", function () {
-    var scrollToTopBtn = document.getElementById("scrollToTopBtn");
+navToggleEvent(navElemArr);
+navToggleEvent(navLinks);
 
-    // Xử lý sự kiện scroll
-    window.addEventListener("scroll", function () {
-        if (window.scrollY > 100) {
-            // Hiển thị nút khi lăn chuột xuống dưới
-            scrollToTopBtn.style.display = "block";
-        } else {
-            // Ẩn nút khi lăn chuột lên đầu
-            scrollToTopBtn.style.display = "none";
-        }
-    });
 
-    // Xử lý sự kiện click
-    scrollToTopBtn.addEventListener("click", function () {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
-    });
-});
 
-var nav = document.querySelector("nav");
-var navHeight = nav.offsetHeight;
-var navOffset = nav.offsetTop;
+/**
+ * header sticky & go to top
+ */
+
+const header = document.querySelector("[data-header]");
+const goTopBtn = document.querySelector("[data-go-top]");
 
 window.addEventListener("scroll", function () {
-    if (window.pageYOffset > navOffset + navHeight) {
-        nav.classList.add("sticky");
-    } else {
-        nav.classList.remove("sticky");
-    }
+
+  if (window.scrollY >= 200) {
+    header.classList.add("active");
+    goTopBtn.classList.add("active");
+  } else {
+    header.classList.remove("active");
+    goTopBtn.classList.remove("active");
+  }
+
 });
-
-function changeBackground(selectedOption) {
-    const bookingOptions = document.querySelectorAll(".booking__option");
-
-    // Loại bỏ lớp CSS 'active' từ tất cả các ô
-    bookingOptions.forEach((option) => {
-        option.classList.remove("active");
-        option.style.backgroundColor = "#f1f5f9";
-    });
-
-    // Thêm lớp CSS 'active' cho ô được click và thay đổi màu nền thành xanh
-    selectedOption.classList.add("active");
-    selectedOption.style.backgroundColor = "#3d5cb8";
-}
